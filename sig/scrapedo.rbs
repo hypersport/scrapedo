@@ -1,4 +1,54 @@
 module Scrapedo
   VERSION: String
   # See the writing guide of rbs: https://github.com/ruby/rbs#guides
+  def self.google: -> GoogleBuilder
+end
+
+class GoogleBuilder
+  CONFIG_PATH: Pathname
+  FILE_MAP: Hash[Symbol, String]
+
+  @all_params: bool
+  @params_cache: Hash[Object, Object]
+  @data: Hash[Object, Object]
+  @query: String
+  @has_next: bool
+
+  @token: String
+
+  def initialize: (String token) -> void
+
+  def cr: -> GoogleBuilder
+
+  def device: -> GoogleBuilder
+
+  def disable_filter: -> GoogleBuilder
+
+  def gl: -> GoogleBuilder
+
+  def google_domain: -> GoogleBuilder
+
+  def hl: -> GoogleBuilder
+
+  def include_html: -> GoogleBuilder
+
+  def location: -> GoogleBuilder
+
+  def lr: -> GoogleBuilder
+
+  def next?: () -> bool
+
+  def enable_nfpr: -> GoogleBuilder
+
+  def safe_search: -> GoogleBuilder
+
+  def search: (String query) -> GoogleBuilder
+  def start: (Integer start) -> Hash[String, String]
+
+  def uule: -> GoogleBuilder
+
+  private
+
+  def load_yaml: -> Hash[Object, String]
+
 end

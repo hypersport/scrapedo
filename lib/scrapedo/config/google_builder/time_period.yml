@@ -1,0 +1,7 @@
+common: &common_data
+  hour: "last_hour"
+  today: "last_day"
+  week: "last_week"
+  month: "last_month"
+  year: "last_year"
+all: *common_data
