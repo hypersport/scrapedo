@@ -1,6 +1,5 @@
 module Scrapedo
   VERSION: String
-  # See the writing guide of rbs: https://github.com/ruby/rbs#guides
   def self.google: -> GoogleBuilder
 end
 
@@ -8,47 +7,60 @@ class GoogleBuilder
   CONFIG_PATH: Pathname
   FILE_MAP: Hash[Symbol, String]
 
-  @all_params: bool
-  @params_cache: Hash[Object, Object]
-  @data: Hash[Object, Object]
-  @query: String
   @has_next: bool
+  @data: Hash[Object, Object]
+  @params_cache: Hash[Object, Object]
+  @all_params: bool
 
-  @token: String
-
-  def initialize: (String token) -> void
-
-  def cr: -> GoogleBuilder
-
-  def device: -> GoogleBuilder
-
-  def disable_filter: -> GoogleBuilder
-
-  def gl: -> GoogleBuilder
-
-  def google_domain: -> GoogleBuilder
-
-  def hl: -> GoogleBuilder
-
-  def include_html: -> GoogleBuilder
-
-  def location: -> GoogleBuilder
-
-  def lr: -> GoogleBuilder
+  def initialize: (String) -> void
 
   def next?: () -> bool
 
-  def enable_nfpr: -> GoogleBuilder
+  def search: (String) -> GoogleBuilder
 
-  def safe_search: -> GoogleBuilder
+  def device: -> GoogleBuilder
 
-  def search: (String query) -> GoogleBuilder
-  def start: (Integer start) -> Hash[String, String]
+  def include_html: -> GoogleBuilder
+
+  def hl: -> GoogleBuilder
+  alias host_language hl
+
+  def gl: -> GoogleBuilder
+  alias geo_location gl
+
+  def google_domain: -> GoogleBuilder
+  alias domain google_domain
+
+  def location: -> GoogleBuilder
 
   def uule: -> GoogleBuilder
 
+  def lr: -> GoogleBuilder
+  alias language_restrict lr
+
+  def cr: -> GoogleBuilder
+  alias country_restrict cr
+
+  def safe_search: -> GoogleBuilder
+
+  def enable_nfpr: -> GoogleBuilder
+
+  def disable_filter: -> GoogleBuilder
+
+  def start: (Integer) -> Hash[String, String]
+
+  def next: -> Hash[String, String]
+
+  def params: -> GoogleBuilder
+
+  def scrapedo_url: -> URI::Generic
+
   private
 
-  def load_yaml: -> Hash[Object, String]
+  def load_yaml: (String) -> Hash[Object, String]
+
+  def find_config_source: (Symbol | String) -> [Symbol, Hash[Symbol, Object]]?
+
+  def blank?: (Object) -> bool
 
 end

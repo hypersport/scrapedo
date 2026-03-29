@@ -5,7 +5,7 @@ require "json"
 require "yaml"
 
 class GoogleBuilder
-  CONFIG_PATH = Pathname.new(__dir__).join("config/google_builder").expand_path
+  CONFIG_PATH = Pathname.new(__dir__ || ".").join("config/google_builder").expand_path
   FILE_MAP = {
     time_period: "time_period.yml",
     hl: "host_language.yml",
@@ -17,8 +17,7 @@ class GoogleBuilder
 
   def initialize(token, all_params: false)
     @has_next = false
-    @token = token
-    @data = {}
+    @data = { token: token }
     @params_cache = {}
     @all_params = all_params
   end
@@ -30,7 +29,9 @@ class GoogleBuilder
   def search(query)
     raise ArgumentError, "Query is required" if blank? query
 
-    @data[:query] = query
+    @data.select! { |key| key == :token }
+    @has_next = false
+    @data[:q] = query
     self
   end
 
@@ -100,18 +101,17 @@ class GoogleBuilder
   end
 
   def start(start = 0)
-    raise ArgumentError, "Query is required" if blank? @data[:query]
+    raise ArgumentError, "Query is required" if blank? @data[:q]
 
-    @data[:token] = @token
     @data[:start] = start.positive? ? start / 10 * 10 : 0
-    url = URI("https://api.scrape.do/plugin/google/search")
-    url.query = URI.encode_www_form(@data)
-    url
-    # response = Net::HTTP.get(url)
-    # @data.clear
-    # result = JSON.parse(response)
-    # @has_next = !results["pagination"]["next"].nil?
-    # result
+    response = Net::HTTP.get(scrapedo_url)
+    result = JSON.parse(response)
+    @has_next = !result["pagination"]["next"].nil?
+    result
+  end
+
+  def next
+    start(@data[:start] + 10) if next?
   end
 
   %i[desktop mobile].each do |name|
@@ -119,6 +119,20 @@ class GoogleBuilder
       @data[:device] = name
       self
     end
+  end
+
+  def params(*params)
+    params.first.each do |key, value|
+      key_sym = key.to_sym
+      @data[key_sym] = value if key_sym != :token && key_sym != :start && !value.nil?
+    end
+    self
+  end
+
+  def scrapedo_url
+    url = URI("https://api.scrape.do/plugin/google/search")
+    url.query = URI.encode_www_form(@data)
+    url
   end
 
   def method_missing(name, *args, &block)
@@ -151,9 +165,9 @@ class GoogleBuilder
     if @params_cache[filename].nil?
       path = CONFIG_PATH.join(filename)
       @params_cache[filename] = if @all_params
-                                  YAML.load_file(path, symbolize_names: true, aliases: true)[:all]
+                                  YAML.safe_load_file(path, symbolize_names: true, aliases: true)[:all]
                                 else
-                                  YAML.load_file(path, symbolize_names: true, aliases: true)[:common]
+                                  YAML.safe_load_file(path, symbolize_names: true, aliases: true)[:common]
                                 end
     end
     @params_cache[filename]
