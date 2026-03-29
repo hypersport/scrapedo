@@ -5,6 +5,8 @@
 
 An unofficial Ruby gem designed to provide a convenient interface for Ruby developers. It eliminates the need to handle complex HTTP requests and parsing logic, allowing you to easily access data from the Scrapedo API (currently supports only Google Search API) within your applications.
 
+It supports **ALL** parameters of the [Google Search API](https://scrape.do/documentation/google-search-api/search/).
+
 ## Installation
 
 Install the gem and add to the application's Gemfile by executing:
