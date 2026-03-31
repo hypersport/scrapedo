@@ -63,7 +63,7 @@ class GoogleBuilder
   #
   # This can also use GoogleBuilder#{time_period}. For example:
   # - GoogleBuilder#time("last_hour") is same as GoogleBuilder#hour and GoogleBuilder#last_hour.
-  # - GoogleBuilder#time("last_day") is same as GoogleBuilder#day and GoogleBuilder#last_day and GoogleBuilder#today.
+  # - GoogleBuilder#time("last_day") is same as GoogleBuilder#day and GoogleBuilder#last_day.
   # - GoogleBuilder#time("last_week") is same as GoogleBuilder#week and GoogleBuilder#last_week.
   # - GoogleBuilder#time("last_month") is same as GoogleBuilder#month and GoogleBuilder#last_month.
   # - GoogleBuilder#time("last_year") is same as GoogleBuilder#year and GoogleBuilder#last_year.
@@ -185,19 +185,19 @@ class GoogleBuilder
   end
   alias country_restrict cr
 
-  # Send active to filter adult content from results.
+  # Send active to filter adult content from results. See {Result Filtering}[https://scrape.do/documentation/google-search-api/search/#result-filtering]:
   def safe_search
     @data[:safe] = "active"
     self
   end
 
-  # Enables Google's automatic spelling correction.
+  # Enables Google's automatic spelling correction. See {Result Filtering}[https://scrape.do/documentation/google-search-api/search/#result-filtering]:
   def enable_nfpr
     @data[:nfpr] = true
     self
   end
 
-  # Disables "Similar Results" and "Omitted Results" filters.
+  # Disables "Similar Results" and "Omitted Results" filters. See {Result Filtering}[https://scrape.do/documentation/google-search-api/search/#result-filtering]:
   def disable_filter
     @data[:filter] = false
     self
@@ -233,7 +233,7 @@ class GoogleBuilder
     end
   end
 
-  # Set any parameter from {Google Search API}[https://scrape.do/documentation/google-search-api/search/].
+  # Set any parameter from {Scrapedo's Google Search API}[https://scrape.do/documentation/google-search-api/search/].
   #
   # @param params [Hash] A hash of parameters to set.
   def params(*params)

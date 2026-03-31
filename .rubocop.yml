@@ -15,6 +15,7 @@ Layout/LineLength:
     - !ruby/regexp /\A\s*#/
   Exclude:
     - '*.gemspec'
+    - '*.md'
 
 Lint/AmbiguousBlockAssociation:
   Description: This cop checks for ambiguous block association with method when param passed without parentheses.

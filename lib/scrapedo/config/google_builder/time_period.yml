@@ -2,7 +2,6 @@ common: &common_data
   hour: "last_hour"
   last_hour: "last_hour"
   day: "last_day"
-  today: "last_day"
   last_day: "last_day"
   week: "last_week"
   last_week: "last_week"
