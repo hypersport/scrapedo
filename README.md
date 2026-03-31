@@ -23,8 +23,10 @@ If bundler is not being used to manage dependencies, install the gem by executin
 `scrapedo` supports **ALL** parameters of the [Scrapedo's Google Search API](https://scrape.do/documentation/google-search-api/search/).
 Every parameter **MUST** meet scrapedo's requirements.
 
+See [Scrapedo Document](https://rubydoc.info/github/hypersport/scrapedo) for more details.
+
+Example: Search for "scracedo" on google.com.hk, with the search period set to within one week, the device type as mobile phone, the interface language as Japanese, and the country as South Korea.
 ```ruby
-# Example: Search for "scracedo" on google.com.hk, with the search period set to within one week, the device type as mobile phone, the interface language as Japanese, and the country as South Korea.
 client = Scrapedo.google('your_token')
 puts client.search('scracedo').domain_hong_kong.week.mobile.hl_ja.gl_kr.start
 while client.next?
